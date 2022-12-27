@@ -41,3 +41,33 @@ def place_order():
     restaurant_id = data["restaurant_id"]
     menu_items = data["menu_items"]
     location_id = data["location_id"]
+
+    # Validate input
+    if not all(field in data for field in ["restaurant_id", "menu_items", "location_id"]):
+        return jsonify({"error": "Invalid input"}), 422
+
+    for restaurant in restaurants:
+        if restaurant["id"] == restaurant_id:
+            for menu_item in menu_items:
+                if not any(item["id"] == menu_item["id"] for item in restaurant["menu"]):
+                    return jsonify({"error": "Invalid menu item"}), 422
+            break
+    else:
+        return jsonify({"error": "Invalid restaurant"}), 422
+
+    for location in locations:
+        if location["id"] == location_id:
+            break
+    else:
+        return jsonify({"error": "Invalid location"}), 422
+
+    # Place order
+    order = {
+        "id": len(orders) + 1,
+        "restaurant_id": restaurant_id,
+        "menu_items": menu_items,
+        "location_id": location_id,
+        "status": "pending"
+    }
+    orders.append(order)
+    return jsonify(order)
