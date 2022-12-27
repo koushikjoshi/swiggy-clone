@@ -21,7 +21,7 @@ Returns a list of all the restaurants available on the app.
 ##### Request:
 
 ```
-curl -X GET http://localhost:5000/restaurants
+curl -X GET http://localhost:5000/api/restaurants
 ```
 
 ##### Response:
@@ -58,7 +58,7 @@ Returns the details for a single restaurant.
 ##### Request:
 
 ```
-curl -X GET http://localhost:5000/restaurants/1
+curl -X GET http://localhost:5000/api/restaurants/1
 
 ```
 
@@ -104,7 +104,7 @@ Places a new order.
 ##### Request
 
 ```
-{
+curl -X POST -H "Content-Type: application/json" -d '{
     "restaurant_id": 1,
     "menu_items": [
         {
@@ -119,7 +119,8 @@ Places a new order.
     "pickup": true,
     "location_id": 1,
     "status": "pending"
-}
+}' http://localhost:5000/api/orders
+
 
 ```
 
@@ -152,7 +153,7 @@ Returns the details for a single order.
 ##### Request
 
 ```
-curl -X GET http://localhost:5000/orders/1
+curl -X GET http://localhost:5000/api/orders/1
 ```
 
 ##### Response
