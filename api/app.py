@@ -71,3 +71,11 @@ def place_order():
     }
     orders.append(order)
     return jsonify(order)
+
+@app.route("/api/orders/<int:order_id>", methods=["GET"])
+def get_order(order_id):
+    """Returns a specific order"""
+    for order in orders:
+        if order["id"] == order_id:
+            return jsonify(order)
+    return jsonify({"error": "Order not found"}), 404
