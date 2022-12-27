@@ -12,3 +12,11 @@ orders = []
 def get_restaurants():
     """Returns a list of restaurants"""
     return jsonify(restaurants)
+
+@app.route("/api/restaurants/<int:restaurant_id>", methods=["GET"])
+def get_restaurant(restaurant_id):
+    """Returns a specific restaurant"""
+    for restaurant in restaurants:
+        if restaurant["id"] == restaurant_id:
+            return jsonify(restaurant)
+    return jsonify({"error": "Restaurant not found"}), 404
