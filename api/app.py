@@ -79,3 +79,25 @@ def get_order(order_id):
         if order["id"] == order_id:
             return jsonify(order)
     return jsonify({"error": "Order not found"}), 404
+
+@app.route("/api/orders/<int:order_id>", methods=["PUT"])
+def update_order(order_id):
+    """Updates the status of an order"""
+    data = request.get_json()
+    status = data["status"]
+
+    # Validate input
+    if not all(field in data for field in ["status"]):
+        return jsonify({"error": "Invalid input"}), 422
+
+    if status not in ["pending", "completed"]:
+        return jsonify({"error": "Invalid status"}), 422
+
+    for order in orders:
+        if order["id"] == order_id:
+            order["status"] = status
+            return jsonify(order)
+    return jsonify({"error": "Order not found"}), 404
+
+if __name__ == "__main__":
+    app.run(host='0.0.0.0')
