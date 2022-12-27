@@ -28,3 +28,16 @@ def get_menu(restaurant_id):
         if restaurant["id"] == restaurant_id:
             return jsonify(restaurant["menu"])
     return jsonify({"error": "Restaurant not found"}), 404
+
+@app.route("/api/locations", methods=["GET"])
+def get_locations():
+    """Returns a list of locations"""
+    return jsonify(locations)
+
+@app.route("/api/orders", methods=["POST"])
+def place_order():
+    """Places a new order"""
+    data = request.get_json()
+    restaurant_id = data["restaurant_id"]
+    menu_items = data["menu_items"]
+    location_id = data["location_id"]
